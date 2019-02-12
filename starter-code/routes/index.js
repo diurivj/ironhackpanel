@@ -1,0 +1,29 @@
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
+
+const isAuth = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.redirect(`/${req.user.role}`.toLowerCase())
+  } 
+  return next()
+}
+
+router.get('/', isAuth, (req, res, next)  => {
+  res.render('index')
+})
+
+router.post('/login', passport.authenticate('local'), (req, res, next) => {
+  req.app.locals.loggedUser = req.user 
+  return res.redirect(`/${req.user.role}`.toLowerCase())
+})
+
+router.get('/logout', (req, res, next) => {
+  req.logOut()
+  return res.redirect('/')
+})
+
+router.get('/boss', (req, res, next) => {
+  res.redirect('/gm')
+})
+module.exports = router
