@@ -65,6 +65,8 @@ app.locals.title = 'Express - Generated with IronGenerator'
 
 const index = require('./routes/index')
 const gm = require('./routes/gm')
+const ta = require('./routes/ta')
+app.use('/ta', ta)
 app.use('/gm', gm)
 app.use('/', index)
 
